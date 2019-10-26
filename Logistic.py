@@ -21,8 +21,6 @@ def gradient_descent(X,y, theta_init, eta= 0.05):
         theta_epoch = theta_old
     return theta_epoch, it
 
-
-
 #to chuc du lieu
 X = np.array([[0.50, 0.75, 1.00, 1.25, 1.50, 1.75, 1.75, 2.00, 2.25, 2.50, 
             2.75, 3.00, 3.25, 3.50, 4.00, 4.25, 4.50, 4.75, 5.00, 5.50]]).T 
@@ -32,10 +30,14 @@ one = np.ones((X.shape[0], 1))
 X = np.concatenate((X, one), axis = 1)
 
 
-theta_init = np.random.rand(1, X.shape[1])[0]
-theta, it = gradient_descent(X, y, theta_init) 
-print(f'Thete = {theta}, it = {it}')  
-hours = float(input("Nhap vao so gio: "))
-predict = 1 / (1 + (np.exp( -1 * (theta[0] * hours + theta[1]))))
-print("Ty le dau la = ", predict)
+#theta_init = np.random.rand(1, X.shape[1])[0]
+#theta, it = gradient_descent(X, y, theta_init) 
+#print(f'Thete = {theta}, it = {it}')  
+#hours = float(input("Nhap vao so gio: "))
+#predict = 1 / (1 + (np.exp( -1 * (theta[0] * hours + theta[1]))))
+#print("Ty le dau la = ", predict)
 
+theta_init = np.random.rand(1, X.shape[1])[0]
+theta, it  = gradient_descent(X, y, theta_init)
+print("Theta= ",theta, ", Iteration= ", it)
+np.savetxt('theta.txt', theta)

@@ -2,7 +2,10 @@ import cv2
 import numpy as np 
 
 import joblib
-model = joblib.load("digits.pkl")
+#model = joblib.load("digits.pkl")
+theta = np.loadtxt("theta.txt")
+
+print(theta.shape)
 
 image=cv2.imread('img.jpg')
 image_gray=cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
@@ -22,7 +25,10 @@ for rect in rects:
     roi = cv2.resize(roi, (28,28), interpolation = cv2.INTER_AREA)
     roi = cv2.dilate(roi, (3,3))
     number = np.array([roi]).reshape(1, 28 * 28)
-    predict = model.predict(number)
+    one = np.ones((number.shape[0], 1))
+    number = np.concatenate((number,one), axis = 1)
+    predict = 1.0 / (1 + np.exp(-np.dot(number, theta.T)))
+    print('prediction',str(int(predict[0])))
     print(predict)
     #dung cvinput de vo so predict o tren dau mo hinh
     cv2.putText(image, str(int(predict[0])), (rect[0], rect[1]),cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0,255,255),2)
@@ -32,3 +38,5 @@ cv2.imshow('image_gray',image_gray)
 cv2.imshow('image_threshold',im_th)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
+
+
